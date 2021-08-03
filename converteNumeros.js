@@ -21,19 +21,21 @@ const Enviar = () => {
     }
     const listaNumero = criarListaComNumeros(valor);
 
-    //unidade
+    //1 algarismo
+
     if (valor.length == 1) {
         contador = 1;
 
         for (let i = 0; i < unidadeLista.length; i++) {
             if (valor == contador) {
-                
+
                 return document.write(unidadeLista[i]);
             }
             contador++;
         }
     }
-    //dezena
+    //2 algarimos
+
     if (valor.length == 2) {
 
         if (valor > 10 && valor < 20) {
@@ -80,21 +82,16 @@ const Enviar = () => {
         }
 
     }
-    //centena
+    //3 algarismos
+
     if (valor.length == 3) {
 
-
-        if (listaNumero[1] == 0 && listaNumero[2] == 0) {
-            let contador = 100;
-            for (let i = 0; i < centenaLista.length; i++) {
-                if (valor == contador) {
-                    return document.write(centenaLista[i])
-                }
-                contador += 100;
-            }
-        }
-        // do 101 ao 119
+        // 100 até 199
         if (listaNumero[0] == 1) {
+
+            if (listaNumero[1] == 0 && listaNumero[2] == 0) {
+                return document.write(centenaLista[0])
+            }
 
             if (listaNumero[1] !== 0 && listaNumero[2] == 0) {
                 let dezena;
@@ -108,6 +105,7 @@ const Enviar = () => {
                 }
 
             }
+
             if (listaNumero[1] == 0) {
                 let unidade = listaNumero[2];
                 let unidadeContador = 1;
@@ -121,7 +119,7 @@ const Enviar = () => {
                 }
                 return document.write(`cento e ${unidade}`);
             }
-            if (listaNumero[1] == 1) { 
+            if (listaNumero[1] == 1) {
                 let dezena;
                 let unidade = listaNumero[2];
                 let unidadeContador = 1;
@@ -137,55 +135,128 @@ const Enviar = () => {
             }
 
         }
-        // 
-        if (listaNumero[2] == 0) {
+        // 200 até 999
+        //centenas
+        if (valor > 199) {
+            if (listaNumero[1] == 0 && listaNumero[2] == 0) {
+                let contador = 200;
 
-            let centena;
-            let centenaContador = 2;
-            let dezena;
-            let dezenaContador = 1;
-
-            for (let i = 1; i < centenaLista.length; i++) {
-                if (listaNumero[0] == centenaContador) {
-                    centena = centenaLista[i];
-                    break;
+                for (let i = 1; i < centenaLista.length; i++) {
+                    if (valor == contador) {
+                        return document.write(centenaLista[i])
+                    }
+                    contador += 100;
                 }
-                centenaContador++;
             }
-            for (let i = 0; i < dezenaLista.length; i++) {
-                if (listaNumero[1] == dezenaContador) {
-                    dezena = dezenaLista[i];
-                    break;
+            //centena e unidades
+            if (listaNumero[1] == 0) {
+                let centena;
+                let contadorCentena = 2;
+
+                for (let i = 0; i < centenaLista.length; i++) {
+                    if (listaNumero[0] == contadorCentena) {
+                        let contador = i + 1;
+                        centena = centenaLista[contador];
+                    }
+                    contadorCentena++;
                 }
-                dezenaContador++;
-            }
-            return document.write(`${centena} e ${dezena}`);
-        }
 
-        let centena;
-        let contadorCentena = 2;
-        let unidade;
-        let contadorUnidade = 1;
+                let unidade;
+                let contadorUnidade = 1;
 
-        for (let i = 0; i < centenaLista.length; i++) {
-            if (listaNumero[0] == contadorCentena) {
-                let contador = i + 1;
-                centena = centenaLista[contador];
+                for (let i = 0; i < unidadeLista.length; i++) {
+                    if (listaNumero[2] == contadorUnidade) {
+                        unidade = unidadeLista[i]
+                    }
+                    contadorUnidade++;
+                }
+                return document.write(`${centena} e ${unidade}`);
+
             }
-            contadorCentena++;
-        }
-        for (let i = 0; i < unidadeLista.length; i++) {
-            if (listaNumero[2] == contadorUnidade) {
-                unidade = unidadeLista[i]
+            //centenas e dezenas
+            if (listaNumero[1] > 1) {
+                if (listaNumero[2] == 0) {
+
+                    let centena;
+                    let centenaContador = 2;
+
+                    for (let i = 1; i < centenaLista.length; i++) {
+                        if (listaNumero[0] == centenaContador) {
+                            centena = centenaLista[i];
+                            break;
+                        }
+                        centenaContador++;
+                    }
+
+                    let dezena;
+                    let dezenaContador = 1;
+                    for (let i = 0; i < dezenaLista.length; i++) {
+                        if (listaNumero[1] == dezenaContador) {
+                            dezena = dezenaLista[i];
+                            break;
+                        }
+                        dezenaContador++;
+                    }
+                    return document.write(`${centena} e ${dezena}`);
+                }
             }
-            contadorUnidade++;
+
+
+            // centena, dezena e unidade
+            if (listaNumero[1] == 1) {
+                let centena;
+                let contadorCentena = 2;
+                for (let i = 1; i < centenaLista.length; i++) {
+                    if (listaNumero[0] == contadorCentena) {
+                        centena = centenaLista[i]
+                        break;
+                    }
+                    contadorCentena++;
+                }
+                let onzeAodezenove;
+                let contadorOnzeAoDezenove = 1;
+                for (let i = 0; i < onzeADezenoveLista.length; i++) {
+                    if (listaNumero[2] == contadorOnzeAoDezenove) {
+                        onzeAodezenove = onzeADezenoveLista[i]
+                        break;
+                    }
+                    contadorOnzeAoDezenove++;
+                }
+                return document.write(`${centena} e ${onzeAodezenove}`)
+            }
+            if (listaNumero[0] > 1 && listaNumero[1] > 1 && listaNumero[2] > 0) {
+                let centena;
+                let contadorCentena = 2;
+                for (let i = 1; centenaLista.length; i++) {
+                    if (listaNumero[0] == contadorCentena) {
+                        centena = centenaLista[i];
+                        break;
+                    }
+                    contadorCentena++;
+                }
+                let dezena;
+                let contadorDezena = 2;
+                for (let i = 1; dezenaLista.length; i++) {
+                    if (listaNumero[1] == contadorDezena) {
+                        dezena = dezenaLista[i];
+                        break;
+                    }
+                    contadorDezena++;
+                }
+                let unidade;
+                let contadorUnidade = 1;
+                for (let i = 0; unidadeLista.length; i++) {
+                    if (listaNumero[2] == contadorUnidade) {
+                        unidade = unidadeLista[i];
+                        break;
+                    }
+                    contadorUnidade++;
+                }
+                return document.write(`${centena} e ${dezena} e ${unidade}`);
+            }
         }
-        return document.write(`${centena} e ${unidade}`);
     }
-
-
 }
-
 
 const botao = document.querySelector("[data-botao]");
 botao.addEventListener('click', Enviar);
