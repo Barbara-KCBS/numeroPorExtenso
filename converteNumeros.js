@@ -2,6 +2,7 @@ const Enviar = () => {
 
     const input = document.querySelector("[data-input]");
     const valor = input.value;
+    let resultado;
 
     const unidadeLista = ["um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
     const onzeADezenoveLista = ["onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
@@ -29,7 +30,7 @@ const Enviar = () => {
         for (let i = 0; i < unidadeLista.length; i++) {
             if (valor == contador) {
 
-                return document.write(unidadeLista[i]);
+                resultado = unidadeLista[i];
             }
             contador++;
         }
@@ -42,7 +43,7 @@ const Enviar = () => {
 
             for (let i = 0; i < onzeADezenoveLista.length; i++) {
                 if (valor == i + 11) {
-                    return document.write(onzeADezenoveLista[i]);
+                    resultado = onzeADezenoveLista[i];
                 }
 
             }
@@ -53,7 +54,7 @@ const Enviar = () => {
 
             for (let i = 0; i < dezenaLista.length; i++) {
                 if (valor == contador) {
-                    return document.write(dezenaLista[i]);
+                    resultado = dezenaLista[i];
                 }
                 contador += 10;
             }
@@ -78,7 +79,7 @@ const Enviar = () => {
                 }
                 unidadeContador++;
             }
-            return document.write(`${dezena} e ${unidade}`);
+            resultado = `${dezena} e ${unidade}`;
         }
 
     }
@@ -90,7 +91,7 @@ const Enviar = () => {
         if (listaNumero[0] == 1) {
 
             if (listaNumero[1] == 0 && listaNumero[2] == 0) {
-                return document.write(centenaLista[0])
+                resultado = centenaLista[0];
             }
 
             if (listaNumero[1] !== 0 && listaNumero[2] == 0) {
@@ -99,7 +100,7 @@ const Enviar = () => {
                 for (let i = 0; i < dezenaLista.length; i++) {
                     if (listaNumero[1] == dezenaContador) {
                         dezena = dezenaLista[i];
-                        return document.write(`cento e ${dezena}`);
+                        resultado = `cento e ${dezena}`;
                     }
                     dezenaContador++;
                 }
@@ -117,7 +118,7 @@ const Enviar = () => {
                     }
                     unidadeContador++;
                 }
-                return document.write(`cento e ${unidade}`);
+                resultado = `cento e ${unidade}`;
             }
             if (listaNumero[1] == 1) {
                 let dezena;
@@ -131,7 +132,7 @@ const Enviar = () => {
                     }
                     unidadeContador++;
                 }
-                return document.write(`cento e ${dezena}`)
+                resultado = `cento e ${dezena}`;
             }
 
         }
@@ -143,7 +144,7 @@ const Enviar = () => {
 
                 for (let i = 1; i < centenaLista.length; i++) {
                     if (valor == contador) {
-                        return document.write(centenaLista[i])
+                        resultado = centenaLista[i];
                     }
                     contador += 100;
                 }
@@ -170,7 +171,7 @@ const Enviar = () => {
                     }
                     contadorUnidade++;
                 }
-                return document.write(`${centena} e ${unidade}`);
+                resultado = `${centena} e ${unidade}`;
 
             }
             //centenas e dezenas
@@ -197,7 +198,7 @@ const Enviar = () => {
                         }
                         dezenaContador++;
                     }
-                    return document.write(`${centena} e ${dezena}`);
+                    resultado = `${centena} e ${dezena}`;
                 }
             }
 
@@ -222,7 +223,7 @@ const Enviar = () => {
                     }
                     contadorOnzeAoDezenove++;
                 }
-                return document.write(`${centena} e ${onzeAodezenove}`)
+                resultado = `${centena} e ${onzeAodezenove}`;
             }
             if (listaNumero[0] > 1 && listaNumero[1] > 1 && listaNumero[2] > 0) {
                 let centena;
@@ -252,10 +253,13 @@ const Enviar = () => {
                     }
                     contadorUnidade++;
                 }
-                return document.write(`${centena} e ${dezena} e ${unidade}`);
+                resultado =`${centena} e ${dezena} e ${unidade}`;
             }
         }
     }
+    const paragrafo = document.querySelector('[data-paragrafo]');
+    paragrafo.innerHTML = resultado;
+    input.value = '';
 }
 
 const botao = document.querySelector("[data-botao]");
