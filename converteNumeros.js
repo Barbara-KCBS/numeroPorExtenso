@@ -8,9 +8,9 @@ const Enviar = () => {
     const onzeADezenoveLista = ["onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
     const dezenaLista = ["dez", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
     const centenaLista = ["cem", "duzentos", "trezentos", "quatrocentos", "quinhentos", "seicentos", "setecentos", "oitocentos", "novecentos"];
-    const milhar = "mil";
 
-    function criarListaComNumeros(valor) {
+    // desmembra números com mais de 1 algarismo e cria uma lista com unidades
+    function desmembraNumeros(valor) {
         var valorParaString = valor.toString();
         var listaString = valorParaString.split('');
         const listaNumero = [];
@@ -20,45 +20,46 @@ const Enviar = () => {
         }
         return listaNumero;
     }
-    const listaNumero = criarListaComNumeros(valor);
+    const listaNumero = desmembraNumeros(valor);
 
     //1 algarismo
-
-    if (valor.length == 1) {
+    //unidade
+    function unidade(valor){
         contador = 1;
 
         for (let i = 0; i < unidadeLista.length; i++) {
             if (valor == contador) {
 
-                resultado = unidadeLista[i];
+                return resultado = unidadeLista[i];
             }
             contador++;
         }
     }
-    //2 algarimos
-
-    if (valor.length == 2) {
-
+      
+    function dezena(valor){
+        //números 11 ao 19
         if (valor > 10 && valor < 20) {
 
             for (let i = 0; i < onzeADezenoveLista.length; i++) {
                 if (valor == i + 11) {
-                    resultado = onzeADezenoveLista[i];
+                    return resultado = onzeADezenoveLista[i];
                 }
-
             }
         }
-
+        //numero de 20 a 99
+        //dezenas
         if (listaNumero[1] == 0) {
             let contador = 10;
 
             for (let i = 0; i < dezenaLista.length; i++) {
                 if (valor == contador) {
-                    resultado = dezenaLista[i];
+                    return resultado = dezenaLista[i];
                 }
                 contador += 10;
             }
-        } else {
+        //dezena + unidade
+        } 
+        if(listaNumero[0] > 1 && listaNumero[1] !== 0){
             let dezena = listaNumero[0];
             let dezenaContador = 2;
 
@@ -79,9 +80,17 @@ const Enviar = () => {
                 }
                 unidadeContador++;
             }
-            resultado = `${dezena} e ${unidade}`;
+            return resultado = `${dezena} e ${unidade}`;
         }
 
+    }
+    if (valor.length == 1) {
+        unidade(valor);
+    }
+    //2 algarimos
+
+    if (valor.length == 2) {
+        dezena(valor)
     }
     //3 algarismos
 
@@ -90,24 +99,12 @@ const Enviar = () => {
         // 100 até 199
         if (listaNumero[0] == 1) {
 
+            //100
             if (listaNumero[1] == 0 && listaNumero[2] == 0) {
                 resultado = centenaLista[0];
             }
-
-            if (listaNumero[1] !== 0 && listaNumero[2] == 0) {
-                let dezena;
-                let dezenaContador = 1;
-                for (let i = 0; i < dezenaLista.length; i++) {
-                    if (listaNumero[1] == dezenaContador) {
-                        dezena = dezenaLista[i];
-                        resultado = `cento e ${dezena}`;
-                    }
-                    dezenaContador++;
-                }
-
-            }
-
-            if (listaNumero[1] == 0) {
+            //centena + unidade
+            if (listaNumero[1] == 0 && listaNumero[2] !== 0) {
                 let unidade = listaNumero[2];
                 let unidadeContador = 1;
 
@@ -120,25 +117,42 @@ const Enviar = () => {
                 }
                 resultado = `cento e ${unidade}`;
             }
-            if (listaNumero[1] == 1) {
+            //centena + dezena
+            if (listaNumero[1] !== 0 && listaNumero[2] == 0) {
                 let dezena;
+                let dezenaContador = 1;
+                for (let i = 0; i < dezenaLista.length; i++) {
+                    if (listaNumero[1] == dezenaContador) {
+                        dezena = dezenaLista[i];
+                        resultado = `cento e ${dezena}`;
+                    }
+                    dezenaContador++;
+                }
+
+            }
+            //111 ao 119
+            if (listaNumero[1] == 1) {
+                let onzeAoDezenove;
                 let unidade = listaNumero[2];
                 let unidadeContador = 1;
 
                 for (let i = 0; i < onzeADezenoveLista.length; i++) {
                     if (unidade == unidadeContador) {
-                        dezena = onzeADezenoveLista[i];
+                        onzeAoDezenove = onzeADezenoveLista[i];
                         break;
                     }
                     unidadeContador++;
                 }
-                resultado = `cento e ${dezena}`;
+                resultado = `cento e ${onzeAoDezenove}`;
             }
+            
+         
 
         }
         // 200 até 999
-        //centenas
         if (valor > 199) {
+
+            //centenas
             if (listaNumero[1] == 0 && listaNumero[2] == 0) {
                 let contador = 200;
 
@@ -149,8 +163,8 @@ const Enviar = () => {
                     contador += 100;
                 }
             }
-            //centena e unidades
-            if (listaNumero[1] == 0) {
+            //centena + unidades
+            if (listaNumero[1] == 0 && listaNumero[2] !== 0) {
                 let centena;
                 let contadorCentena = 2;
 
@@ -174,7 +188,7 @@ const Enviar = () => {
                 resultado = `${centena} e ${unidade}`;
 
             }
-            //centenas e dezenas
+            //centenas + dezenas
             if (listaNumero[1] > 1) {
                 if (listaNumero[2] == 0) {
 
@@ -201,12 +215,12 @@ const Enviar = () => {
                     resultado = `${centena} e ${dezena}`;
                 }
             }
-
-
-            // centena, dezena e unidade
+            // centena + dezena + unidade
             if (listaNumero[1] == 1) {
+
                 let centena;
                 let contadorCentena = 2;
+
                 for (let i = 1; i < centenaLista.length; i++) {
                     if (listaNumero[0] == contadorCentena) {
                         centena = centenaLista[i]
@@ -214,8 +228,10 @@ const Enviar = () => {
                     }
                     contadorCentena++;
                 }
+
                 let onzeAodezenove;
                 let contadorOnzeAoDezenove = 1;
+
                 for (let i = 0; i < onzeADezenoveLista.length; i++) {
                     if (listaNumero[2] == contadorOnzeAoDezenove) {
                         onzeAodezenove = onzeADezenoveLista[i]
@@ -223,11 +239,14 @@ const Enviar = () => {
                     }
                     contadorOnzeAoDezenove++;
                 }
+
                 resultado = `${centena} e ${onzeAodezenove}`;
             }
             if (listaNumero[0] > 1 && listaNumero[1] > 1 && listaNumero[2] > 0) {
+                //centena
                 let centena;
                 let contadorCentena = 2;
+
                 for (let i = 1; centenaLista.length; i++) {
                     if (listaNumero[0] == contadorCentena) {
                         centena = centenaLista[i];
@@ -235,8 +254,10 @@ const Enviar = () => {
                     }
                     contadorCentena++;
                 }
+                //dezena
                 let dezena;
                 let contadorDezena = 2;
+
                 for (let i = 1; dezenaLista.length; i++) {
                     if (listaNumero[1] == contadorDezena) {
                         dezena = dezenaLista[i];
@@ -244,6 +265,7 @@ const Enviar = () => {
                     }
                     contadorDezena++;
                 }
+                //unidade
                 let unidade;
                 let contadorUnidade = 1;
                 for (let i = 0; unidadeLista.length; i++) {
