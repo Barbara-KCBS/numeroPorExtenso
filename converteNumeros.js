@@ -1,9 +1,9 @@
 const Enviar = () => {
 
     const input = document.querySelector("[data-input]");
-    const valor = input.value;
+    const valorEntrada = input.value;
     let resultado;
-
+    
     const unidadeLista = ["um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
     const onzeADezenoveLista = ["onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove"];
     const dezenaLista = ["dez", "vinte", "trinta", "quarenta", "cinquenta", "sessenta", "setenta", "oitenta", "noventa"];
@@ -11,16 +11,14 @@ const Enviar = () => {
 
     // desmembra números com mais de 1 algarismo e cria uma lista com unidades
     function desmembraNumeros(valor) {
-        var valorParaString = valor.toString();
-        var listaString = valorParaString.split('');
+        const desmembraNumero = valor.split('')
         const listaNumero = [];
-
-        for (let i = 0; i < listaString.length; i++) {
-            listaNumero.push(Number(listaString[i]));
+        for (let i = 0; i < desmembraNumero.length; i++) {
+            listaNumero.push(Number(desmembraNumero[i]));
         }
         return listaNumero;
     }
-    const listaNumero = desmembraNumeros(valor);
+    const listaNumero = desmembraNumeros(valorEntrada);
 
     //1 algarismo
     //unidade
@@ -84,17 +82,17 @@ const Enviar = () => {
         }
 
     }
-    if (valor.length == 1) {
-        unidade(valor);
+    if (valorEntrada.length == 1) {
+        unidade(valorEntrada);
     }
     //2 algarimos
 
-    if (valor.length == 2) {
-        dezena(valor)
+    if (valorEntrada.length == 2) {
+        dezena(valorEntrada)
     }
     //3 algarismos
 
-    if (valor.length == 3) {
+    if (valorEntrada.length == 3) {
 
         // 100 até 199
         if (listaNumero[0] == 1) {
@@ -150,14 +148,14 @@ const Enviar = () => {
 
         }
         // 200 até 999
-        if (valor > 199) {
+        if (valorEntrada > 199) {
 
             //centenas
             if (listaNumero[1] == 0 && listaNumero[2] == 0) {
                 let contador = 200;
 
                 for (let i = 1; i < centenaLista.length; i++) {
-                    if (valor == contador) {
+                    if (valorEntrada == contador) {
                         resultado = centenaLista[i];
                     }
                     contador += 100;
