@@ -1,7 +1,7 @@
 const Enviar = () => {
 
     const input = document.querySelector("[data-input]");
-    const valorEntrada = input.value;
+    let valorDeEntrada = input.value;
     let resultado;
     
     const unidadeLista = ["um", "dois", "três", "quatro", "cinco", "seis", "sete", "oito", "nove"];
@@ -18,11 +18,24 @@ const Enviar = () => {
         }
         return listaNumero;
     }
-    const listaNumero = desmembraNumeros(valorEntrada);
+    const listaNumero = desmembraNumeros(valorDeEntrada);
+    
+    function localizarNumeroPorExtenso(valorAlgarismo, indice, posicaoDoNumero, listaDeNumeroPorExtenso){
+        let contador = valorAlgarismo;
+        
+        for (let i = indice; i <= 9; i++) {
+            if (posicaoDoNumero == contador) {
+                let numeroPorExtenso = listaDeNumeroPorExtenso[i];
+                return numeroPorExtenso
+            }
+            contador++;
+            
+        }
+    }
 
     //1 algarismo
     //unidade
-    function unidade(valor){
+    function valoresComUmAlgarismo(valor){
         contador = 1;
 
         for (let i = 0; i < unidadeLista.length; i++) {
@@ -34,7 +47,7 @@ const Enviar = () => {
         }
     }
       
-    function dezena(valor){
+    function valoresComDoisAlgarismos(valor){
         //números 11 ao 19
         if (valor > 10 && valor < 20) {
 
@@ -82,18 +95,22 @@ const Enviar = () => {
         }
 
     }
-    if (valorEntrada.length == 1) {
-        unidade(valorEntrada);
+    
+    // 1 algarismo
+    if (valorDeEntrada.length == 1) {
+        valoresComUmAlgarismo(valorDeEntrada);
     }
-    //2 algarimos
-
-    if (valorEntrada.length == 2) {
-        dezena(valorEntrada)
+    
+    //2 algarismos
+    if (valorDeEntrada.length == 2) {
+        valoresComDoisAlgarismos(valorDeEntrada)
     }
     //3 algarismos
 
-    if (valorEntrada.length == 3) {
-
+    if (valorDeEntrada.length == 3) {
+        valoresComTresAlgarismos();
+    }
+    function valoresComTresAlgarismos(){
         // 100 até 199
         if (listaNumero[0] == 1) {
 
@@ -103,33 +120,18 @@ const Enviar = () => {
             }
             //centena + unidade
             if (listaNumero[1] == 0 && listaNumero[2] !== 0) {
-                let unidade = listaNumero[2];
-                let unidadeContador = 1;
-
-                for (let i = 0; i < unidadeLista.length; i++) {
-                    if (unidade == unidadeContador) {
-                        unidade = unidadeLista[i];
-                        break;
-                    }
-                    unidadeContador++;
-                }
+                let unidade = localizarNumeroPorExtenso(1, 0, listaNumero[2], unidadeLista);
                 resultado = `cento e ${unidade}`;
             }
             //centena + dezena
             if (listaNumero[1] !== 0 && listaNumero[2] == 0) {
-                let dezena;
-                let dezenaContador = 1;
-                for (let i = 0; i < dezenaLista.length; i++) {
-                    if (listaNumero[1] == dezenaContador) {
-                        dezena = dezenaLista[i];
-                        resultado = `cento e ${dezena}`;
-                    }
-                    dezenaContador++;
-                }
 
+                let dezena = localizarNumeroPorExtenso(1, 0, listaNumero[1], dezenaLista);
+                resultado = `cento e ${dezena}`;
             }
             //111 ao 119
-            if (listaNumero[1] == 1) {
+            if (listaNumero[1] == 1 && listaNumero[2] !== 0) {
+
                 let onzeAoDezenove;
                 let unidade = listaNumero[2];
                 let unidadeContador = 1;
@@ -143,19 +145,17 @@ const Enviar = () => {
                 }
                 resultado = `cento e ${onzeAoDezenove}`;
             }
-            
-         
 
         }
         // 200 até 999
-        if (valorEntrada > 199) {
+        if (valorDeEntrada > 199) {
 
             //centenas
             if (listaNumero[1] == 0 && listaNumero[2] == 0) {
                 let contador = 200;
 
                 for (let i = 1; i < centenaLista.length; i++) {
-                    if (valorEntrada == contador) {
+                    if (valorDeEntrada == contador) {
                         resultado = centenaLista[i];
                     }
                     contador += 100;
@@ -163,120 +163,43 @@ const Enviar = () => {
             }
             //centena + unidades
             if (listaNumero[1] == 0 && listaNumero[2] !== 0) {
-                let centena;
-                let contadorCentena = 2;
-
-                for (let i = 0; i < centenaLista.length; i++) {
-                    if (listaNumero[0] == contadorCentena) {
-                        let contador = i + 1;
-                        centena = centenaLista[contador];
-                    }
-                    contadorCentena++;
-                }
-
-                let unidade;
-                let contadorUnidade = 1;
-
-                for (let i = 0; i < unidadeLista.length; i++) {
-                    if (listaNumero[2] == contadorUnidade) {
-                        unidade = unidadeLista[i]
-                    }
-                    contadorUnidade++;
-                }
+                let centena = localizarNumeroPorExtenso(2, 1, listaNumero[0], centenaLista);
+                let unidade = localizarNumeroPorExtenso(1, 0, listaNumero[2], unidadeLista);
+              
                 resultado = `${centena} e ${unidade}`;
 
             }
             //centenas + dezenas
-            if (listaNumero[1] > 1) {
+            if (listaNumero[1] > 0) {
                 if (listaNumero[2] == 0) {
-
-                    let centena;
-                    let centenaContador = 2;
-
-                    for (let i = 1; i < centenaLista.length; i++) {
-                        if (listaNumero[0] == centenaContador) {
-                            centena = centenaLista[i];
-                            break;
-                        }
-                        centenaContador++;
-                    }
-
-                    let dezena;
-                    let dezenaContador = 1;
-                    for (let i = 0; i < dezenaLista.length; i++) {
-                        if (listaNumero[1] == dezenaContador) {
-                            dezena = dezenaLista[i];
-                            break;
-                        }
-                        dezenaContador++;
-                    }
+                    let centena = localizarNumeroPorExtenso(2, 1, listaNumero[0], centenaLista);
+                    let dezena = localizarNumeroPorExtenso(1, 0, listaNumero[1], dezenaLista);
+                  
                     resultado = `${centena} e ${dezena}`;
                 }
             }
             // centena + dezena + unidade
-            if (listaNumero[1] == 1) {
+            if (listaNumero[1] == 1 && listaNumero[2] !== 0) {
 
-                let centena;
-                let contadorCentena = 2;
+                let centena = localizarNumeroPorExtenso(2, 1, listaNumero[0], centenaLista);
+                let numerosDeOnzeAoDezenove = localizarNumeroPorExtenso(1, 0, listaNumero[2], onzeADezenoveLista);
 
-                for (let i = 1; i < centenaLista.length; i++) {
-                    if (listaNumero[0] == contadorCentena) {
-                        centena = centenaLista[i]
-                        break;
-                    }
-                    contadorCentena++;
-                }
-
-                let onzeAodezenove;
-                let contadorOnzeAoDezenove = 1;
-
-                for (let i = 0; i < onzeADezenoveLista.length; i++) {
-                    if (listaNumero[2] == contadorOnzeAoDezenove) {
-                        onzeAodezenove = onzeADezenoveLista[i]
-                        break;
-                    }
-                    contadorOnzeAoDezenove++;
-                }
-
-                resultado = `${centena} e ${onzeAodezenove}`;
+                resultado = `${centena} e ${numerosDeOnzeAoDezenove}`;
             }
             if (listaNumero[0] > 1 && listaNumero[1] > 1 && listaNumero[2] > 0) {
-                //centena
-                let centena;
-                let contadorCentena = 2;
-
-                for (let i = 1; centenaLista.length; i++) {
-                    if (listaNumero[0] == contadorCentena) {
-                        centena = centenaLista[i];
-                        break;
-                    }
-                    contadorCentena++;
-                }
-                //dezena
-                let dezena;
-                let contadorDezena = 2;
-
-                for (let i = 1; dezenaLista.length; i++) {
-                    if (listaNumero[1] == contadorDezena) {
-                        dezena = dezenaLista[i];
-                        break;
-                    }
-                    contadorDezena++;
-                }
-                //unidade
-                let unidade;
-                let contadorUnidade = 1;
-                for (let i = 0; unidadeLista.length; i++) {
-                    if (listaNumero[2] == contadorUnidade) {
-                        unidade = unidadeLista[i];
-                        break;
-                    }
-                    contadorUnidade++;
-                }
+                
+                let centena = localizarNumeroPorExtenso(2, 1, listaNumero[0], centenaLista);
+                let dezena = localizarNumeroPorExtenso(2, 1, listaNumero[1], dezenaLista);
+                let unidade = localizarNumeroPorExtenso(1, 0, listaNumero[2], unidadeLista);
+         
                 resultado =`${centena} e ${dezena} e ${unidade}`;
             }
         }
+
     }
+     
+        
+    
     const paragrafo = document.querySelector('[data-paragrafo]');
     paragrafo.innerHTML = resultado;
     input.value = '';
